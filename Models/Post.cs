@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Post
 {
-    [Key, Required]
-    public int id { get; set; }
+ 
+    public int? id { get; set; }
 
     [Required]
     public string UserAt { get; set; }
@@ -14,11 +14,9 @@ public class Post
 
     public string? PostMedia{ get; set; }
 
-    public DateTime PostDate { get; set; }
+    public DateTime? PostDate { get; set; }
 
-    [Required]
     public int LikeCount { get; set; }
 
-    [Required]
     public int RetweetCount { get; set; }
 }

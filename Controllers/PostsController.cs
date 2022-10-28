@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TwitterCloneBackend.DTOs;
+using TwitterCloneBackend.Models;
 using TwitterCloneBackend.Repositories;
 
 namespace TwitterCloneBacked.NameSpace
@@ -17,6 +17,19 @@ namespace TwitterCloneBacked.NameSpace
         }
 
         [HttpGet]
+        [Route("posts")]
+        public async Task<ActionResult<IEnumerable<Post>>> GetPosts([FromQuery] PostPagingParameters postPagingParameters)
+        {
+            var posts = await _postRepository.GetAll();
+            
+            var pagedPosts = posts.Skip((postPagingParameters.PageNumber - 1) * postPagingParameters.PageSize).Take(postPagingParameters.PageSize).ToList();
+
+
+            return Ok(pagedPosts);
+        }
+
+
+        [HttpGet]
         [Route("posts/{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
@@ -26,24 +39,17 @@ namespace TwitterCloneBacked.NameSpace
 
             return Ok(post);
         }
-        [HttpGet]
-        [Route("posts/{id}")]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
-        {
-            var posts = await _postRepository.GetAll();
-            return Ok(posts);
-        }
-
+       
         [HttpPost]
         [Route("posts")]
-        public async Task<ActionResult> CreatPost([FromBody]Post newPost)
+        public async Task<ActionResult> CreatPost(Post newPost)
         {
             var post = new Post
             {
                 UserAt = newPost.UserAt,
-                PostTextMedia = newPost.PostTextMedia,
+                PostMedia = newPost.PostMedia,
                 PostTextBody = newPost.PostTextBody,
-                PostDate = DateTime.Now,
+                PostDate = DateTime.UtcNow,
                 LikeCount = 0,
                 RetweetCount = 0
             };
@@ -62,12 +68,12 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpPut]
         [Route("posts/{id}")]
-        public async Task<IActionResult> UpdatePost(int id [FromBody]Post postToUpdate)
+        public async Task<IActionResult> UpdatePost(int id, Post postToUpdate)
         {
             Post post = new()
             {
                 PostTextBody = postToUpdate.PostTextBody,
-                PostTextMedia = postToUpdate.PostMedia
+                PostMedia = postToUpdate.PostMedia
             };
 
             await _postRepository.Update(post);

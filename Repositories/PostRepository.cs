@@ -22,7 +22,7 @@ namespace TwitterCloneBackend.Repositories
         public async Task Delete(int id)
         {
             var itemToDelete = await _context.Posts.FindAsync(id);
-            if (itemToDelete != null)
+            if (itemToDelete == null)
                 throw new NullReferenceException();
 
             _context.Posts.Remove(itemToDelete);
@@ -44,7 +44,7 @@ namespace TwitterCloneBackend.Repositories
                 throw new NullReferenceException();
 
             itemToUpdate.UserAt = post.UserAt;
-            itemToUpdate.PostTextMedia = post.PostTextMedia;
+            itemToUpdate.PostMedia = post.PostMedia;
             itemToUpdate.PostDate = post.PostDate;
             itemToUpdate.PostTextBody = post.PostTextBody;
             itemToUpdate.RetweetCount = post.RetweetCount;
