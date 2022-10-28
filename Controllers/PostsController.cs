@@ -36,13 +36,13 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpPost]
         [Route("posts")]
-        public async Task<ActionResult> CreatPost([FromBody]PostDTO postDTO)
+        public async Task<ActionResult> CreatPost([FromBody]Post newPost)
         {
             var post = new Post
             {
-                UserAt = postDTO.UserAt,
-                PostTextMedia = postDTO.PostTextMedia,
-                PostTextBody = postDTO.PostTextBody,
+                UserAt = newPost.UserAt,
+                PostTextMedia = newPost.PostTextMedia,
+                PostTextBody = newPost.PostTextBody,
                 PostDate = DateTime.Now,
                 LikeCount = 0,
                 RetweetCount = 0
@@ -62,12 +62,12 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpPut]
         [Route("posts/{id}")]
-        public async Task<IActionResult> UpdatePost(int id, [FromBody]UpdatePostDTO updatePostDTO)
+        public async Task<IActionResult> UpdatePost(int id [FromBody]Post postToUpdate)
         {
             Post post = new()
             {
-                PostTextBody = updatePostDTO.PostTextBody,
-                PostTextMedia = updatePostDTO.PostTextMedia
+                PostTextBody = postToUpdate.PostTextBody,
+                PostTextMedia = postToUpdate.PostMedia
             };
 
             await _postRepository.Update(post);

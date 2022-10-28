@@ -12,7 +12,7 @@ public class Post
     [Required]
     public string PostTextBody { get; set; }
 
-    public string? PostTextMedia{ get; set; }
+    public string? PostMedia{ get; set; }
 
     public DateTime PostDate { get; set; }
 

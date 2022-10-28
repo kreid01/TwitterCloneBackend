@@ -11,7 +11,6 @@ public class User
 
     public string UserImg { get; set; }
 
-
     public List<Post> Posts { get; set; }
 
 }
