@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TwitterCloneBackend.Context;
@@ -11,9 +12,10 @@ using TwitterCloneBackend.Context;
 namespace TwitterCloneBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221101151758_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,13 +95,13 @@ namespace TwitterCloneBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("CommentDate")
+                    b.Property<DateTime>("CommentDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CommentMedia")
                         .HasColumnType("text");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("PosterId")
@@ -121,7 +123,7 @@ namespace TwitterCloneBackend.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("TwitterCloneBackend.Models.Follows", b =>
@@ -213,9 +215,7 @@ namespace TwitterCloneBackend.Migrations
                 {
                     b.HasOne("Post", null)
                         .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("TwitterCloneBackend.Models.Follows", b =>

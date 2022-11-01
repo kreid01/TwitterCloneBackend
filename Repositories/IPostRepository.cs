@@ -10,6 +10,6 @@
 
         Task Delete(int id);
 
-        Task Update(Post product);
+        Task Update(Post post);
     }
 }

@@ -39,16 +39,14 @@ namespace TwitterCloneBackend.Repositories
         }
         public async Task Update(Post post)
         {
-            var itemToUpdate = await _context.Posts.FindAsync(post.id);
-              if (itemToUpdate == null)
+            var itemToUpdate = await _context.Posts.FindAsync(post.Id);
+            if (itemToUpdate == null)
                 throw new NullReferenceException();
 
-            itemToUpdate.UserAt = post.UserAt;
-            itemToUpdate.PostMedia = post.PostMedia;
-            itemToUpdate.PostDate = post.PostDate;
-            itemToUpdate.PostTextBody = post.PostTextBody;
+            itemToUpdate.CommentCount = post.CommentCount;
             itemToUpdate.RetweetCount = post.RetweetCount;
             itemToUpdate.LikeCount = post.LikeCount;
+            itemToUpdate.Comments = post.Comments;
             await _context.SaveChangesAsync();
         }
     }

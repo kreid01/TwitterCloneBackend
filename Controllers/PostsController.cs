@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TwitterCloneBackend.Models;
 using TwitterCloneBackend.Repositories;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TwitterCloneBacked.NameSpace
 {
@@ -42,14 +43,18 @@ namespace TwitterCloneBacked.NameSpace
        
         [HttpPost]
         [Route("posts")]
-        public async Task<ActionResult> CreatPost(Post newPost)
+        public async Task<ActionResult> CreatePost(Post newPost)
         {
+
             var post = new Post
             {
                 UserAt = newPost.UserAt,
                 PostMedia = newPost.PostMedia,
                 PostTextBody = newPost.PostTextBody,
+                UserName = newPost.UserName,
+                UserImg = newPost.UserImg,
                 PostDate = DateTime.UtcNow,
+                Comments = newPost.Comments,
                 LikeCount = 0,
                 RetweetCount = 0
             };
@@ -68,17 +73,20 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpPut]
         [Route("posts/{id}")]
-        public async Task<IActionResult> UpdatePost(int id, Post postToUpdate)
+        public async Task<IActionResult> UpdatePost(int Id, UpdatePostDto postToUpdate)
         {
             Post post = new()
             {
-                PostTextBody = postToUpdate.PostTextBody,
-                PostMedia = postToUpdate.PostMedia
+                Id = Id,
+                LikeCount = postToUpdate.LikeCount,
+                RetweetCount = postToUpdate.RetweetCount,
+                CommentCount = postToUpdate.CommentCount
             };
 
             await _postRepository.Update(post);
             return Ok();
         }
+    
     }
 
 }

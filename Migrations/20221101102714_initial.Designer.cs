@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TwitterCloneBackend.Context;
@@ -11,9 +12,10 @@ using TwitterCloneBackend.Context;
 namespace TwitterCloneBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221101102714_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,20 +91,10 @@ namespace TwitterCloneBackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CommentBody")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("CommentDate")
+                    b.Property<DateTime>("CommentDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CommentMedia")
-                        .HasColumnType("text");
-
                     b.Property<int>("PostId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("PosterId")
                         .HasColumnType("integer");
 
                     b.Property<string>("UserAt")
@@ -117,11 +109,16 @@ namespace TwitterCloneBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("posterUserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.HasIndex("posterUserId");
+
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("TwitterCloneBackend.Models.Follows", b =>
@@ -211,11 +208,21 @@ namespace TwitterCloneBackend.Migrations
 
             modelBuilder.Entity("TwitterCloneBackend.Models.Comment", b =>
                 {
-                    b.HasOne("Post", null)
+                    b.HasOne("Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("User", "poster")
+                        .WithMany()
+                        .HasForeignKey("posterUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("poster");
                 });
 
             modelBuilder.Entity("TwitterCloneBackend.Models.Follows", b =>
