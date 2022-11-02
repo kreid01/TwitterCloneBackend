@@ -8,6 +8,11 @@
 
         public int CommentCount { get; set; }
 
+        public int Id { get; set; }
+
+        public List<int> RetweetedBy { get; set; }
+
+        public List<int> LikedBy { get; set; }
 
     }
 }

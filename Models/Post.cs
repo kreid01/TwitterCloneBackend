@@ -5,7 +5,7 @@ using TwitterCloneBackend.Models;
 public class Post
 {
     [Key]
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     public string UserAt { get; set; }
@@ -29,6 +29,10 @@ public class Post
     public int CommentCount { get; set; }
 
     public int RetweetCount { get; set; }
+
+    public List<int>? LikedBy { get; set; }
+
+    public List<int>? RetweetedBy { get; set; }
 
     public List<Comment>? Comments { get; set; }
 

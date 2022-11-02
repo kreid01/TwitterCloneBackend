@@ -47,16 +47,42 @@ namespace TwitterCloneBackend.Repositories
             itemToUpdate.CommentCount = post.CommentCount;
             itemToUpdate.RetweetCount = post.RetweetCount;
             itemToUpdate.LikeCount = post.LikeCount;
+            itemToUpdate.RetweetedBy = post.RetweetedBy;
+            itemToUpdate.LikedBy = post.LikedBy;
             itemToUpdate.Comments = post.Comments;
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Post>> GetUsersPosts(int userId)
+        public async Task<List<Post>> GetUsersPosts(int userId, string filterMethod)
         {
+            var usersPosts = new List<Post>();
 
-            var usersPosts = await _context.Posts.Where(_ => _.PosterId == userId).ToListAsync();
+            if (filterMethod == "likes")
+            {
+                var posts = await _context.Posts.ToListAsync();
+
+                var likedPosts = new List<Post>();
+
+                foreach (var post in posts)
+                {
+                    if (post.LikedBy != null && post.LikedBy.Contains(userId))
+                    {
+                        likedPosts.Add(post);
+                    }
+                }
+
+                usersPosts = likedPosts;
+            
+            } else
+            {
+             usersPosts = await _context.Posts.Where(_ => _.PosterId == userId).ToListAsync();
+
+            }
+
+
 
             return usersPosts;
         }
+
     }
 }

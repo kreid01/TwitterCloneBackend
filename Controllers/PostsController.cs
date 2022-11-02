@@ -74,14 +74,16 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpPut]
         [Route("posts/{id}")]
-        public async Task<IActionResult> UpdatePost(int Id, UpdatePostDto postToUpdate)
+        public async Task<IActionResult> UpdatePost(UpdatePostDto postToUpdate)
         {
             Post post = new()
             {
-                Id = Id,
+                Id = postToUpdate.Id,
                 LikeCount = postToUpdate.LikeCount,
                 RetweetCount = postToUpdate.RetweetCount,
-                CommentCount = postToUpdate.CommentCount
+                CommentCount = postToUpdate.CommentCount,
+                RetweetedBy = postToUpdate.RetweetedBy,
+                LikedBy = postToUpdate.LikedBy,
             };
 
             await _postRepository.Update(post);
@@ -90,13 +92,13 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpGet]
         [Route("posts/users/{userId}")]
-        public async Task<IActionResult> GetUsersPosts(int userId)
+        public async Task<IActionResult> GetUsersPosts(int userId, string filterMethod)
         {
-            var posts = await _postRepository.GetUsersPosts(userId);
+            var posts = await _postRepository.GetUsersPosts(userId, filterMethod);
 
             return Ok(posts);
         }
-    
+
     }
 
 }

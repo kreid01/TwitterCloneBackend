@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TwitterCloneBackend.Context;
@@ -12,9 +13,10 @@ using TwitterCloneBackend.Context;
 namespace TwitterCloneBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221102212141_2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,14 +27,17 @@ namespace TwitterCloneBackend.Migrations
 
             modelBuilder.Entity("Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
                     b.Property<int>("CommentCount")
                         .HasColumnType("integer");
+
+                    b.Property<List<int>>("FollowedBy")
+                        .HasColumnType("integer[]");
 
                     b.Property<int>("LikeCount")
                         .HasColumnType("integer");
@@ -55,9 +60,6 @@ namespace TwitterCloneBackend.Migrations
 
                     b.Property<int>("RetweetCount")
                         .HasColumnType("integer");
-
-                    b.Property<List<int>>("RetweetedBy")
-                        .HasColumnType("integer[]");
 
                     b.Property<string>("UserAt")
                         .IsRequired()

@@ -72,11 +72,8 @@ namespace TwitterCloneBacked.NameSpace
             User user = new()
             {
                 UserId = id,
-                PostIds = userToUpdate.PostIds,
                 Followers = userToUpdate.Followers,
-                Following = userToUpdate.Following,
-                LikedPostIds = userToUpdate.LikedPostIds,
-                RetweetedPostIds = userToUpdate.LikedPostIds,
+                Following = userToUpdate.Following
 
             };
 

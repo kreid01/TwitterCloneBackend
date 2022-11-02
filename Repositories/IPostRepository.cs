@@ -12,6 +12,7 @@
 
         Task Update(Post post);
 
-        Task<List<Post>> GetUsersPosts(int userId);
+        Task<List<Post>> GetUsersPosts(int userId, string filterMethod);
+
     }
 }
