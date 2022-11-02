@@ -44,11 +44,11 @@ namespace TwitterCloneBackend.Repositories
 
 
             userToUpdate.UserId = user.UserId;
-            userToUpdate.Posts = user.Posts;
+            userToUpdate.PostIds = user.PostIds;
             userToUpdate.Followers = userToUpdate.Followers;
             userToUpdate.Following = userToUpdate.Following;
-            userToUpdate.LikedPosts = userToUpdate.LikedPosts;
-            userToUpdate.RetweetedPosts = userToUpdate.LikedPosts;
+            userToUpdate.LikedPostIds = userToUpdate.LikedPostIds;
+            userToUpdate.RetweetedPostIds = userToUpdate.LikedPostIds;
 
             await _context.SaveChangesAsync();
         }

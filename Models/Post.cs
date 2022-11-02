@@ -15,9 +15,12 @@ public class Post
 
     public string UserName { get; set; }
 
+
     public string UserImg { get; set; }
 
     public string? PostMedia { get; set; }
+
+    public int PosterId { get; set; }
 
     public DateTime? PostDate { get; set; }
 

@@ -48,6 +48,7 @@ namespace TwitterCloneBacked.NameSpace
                 UserAt = newUser.UserAt,
                 UserName = newUser.UserName,
                 UserImg = newUser.UserImg,
+                UserCoverImg = newUser.UserCoverImg,
                 UserEmail = newUser.UserEmail,
                 JoinDate = DateTime.UtcNow,
             };
@@ -71,11 +72,11 @@ namespace TwitterCloneBacked.NameSpace
             User user = new()
             {
                 UserId = id,
-                Posts = userToUpdate.Posts,
+                PostIds = userToUpdate.PostIds,
                 Followers = userToUpdate.Followers,
                 Following = userToUpdate.Following,
-                LikedPosts = userToUpdate.LikedPosts,
-                RetweetedPosts = userToUpdate.LikedPosts
+                LikedPostIds = userToUpdate.LikedPostIds,
+                RetweetedPostIds = userToUpdate.LikedPostIds,
 
             };
 

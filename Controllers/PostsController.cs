@@ -55,6 +55,7 @@ namespace TwitterCloneBacked.NameSpace
                 UserImg = newPost.UserImg,
                 PostDate = DateTime.UtcNow,
                 Comments = newPost.Comments,
+                PosterId = newPost.PosterId,
                 LikeCount = 0,
                 RetweetCount = 0
             };
@@ -85,6 +86,15 @@ namespace TwitterCloneBacked.NameSpace
 
             await _postRepository.Update(post);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("posts/users/{userId}")]
+        public async Task<IActionResult> GetUsersPosts(int userId)
+        {
+            var posts = await _postRepository.GetUsersPosts(userId);
+
+            return Ok(posts);
         }
     
     }

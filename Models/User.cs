@@ -21,11 +21,11 @@ public class User
 
     public DateTime JoinDate { get; set; } 
 
-    public List<Post>? LikedPosts { get; set; }
+    public List<int>? LikedPostIds { get; set; }
 
-    public List<Post>? RetweetedPosts { get; set; } 
+    public List<int>? RetweetedPostIds { get; set; } 
 
-    public List<Post>? Posts { get; set; }
+    public List<int>? PostIds { get; set; }
 
     public List<Follows>? Followers { get; set; }
 

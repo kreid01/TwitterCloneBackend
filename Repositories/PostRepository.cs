@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
+using TwitterCloneBacked.NameSpace;
 using TwitterCloneBackend.Context;
 
 namespace TwitterCloneBackend.Repositories
@@ -48,6 +49,14 @@ namespace TwitterCloneBackend.Repositories
             itemToUpdate.LikeCount = post.LikeCount;
             itemToUpdate.Comments = post.Comments;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Post>> GetUsersPosts(int userId)
+        {
+
+            var usersPosts = await _context.Posts.Where(_ => _.PosterId == userId).ToListAsync();
+
+            return usersPosts;
         }
     }
 }

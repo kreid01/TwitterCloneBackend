@@ -11,5 +11,7 @@
         Task Delete(int id);
 
         Task Update(Post post);
+
+        Task<List<Post>> GetUsersPosts(int userId);
     }
 }
