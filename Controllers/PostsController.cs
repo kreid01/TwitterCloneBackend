@@ -92,11 +92,13 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpGet]
         [Route("posts/users/{userId}")]
-        public async Task<IActionResult> GetUsersPosts(int userId, string filterMethod)
+        public async Task<IActionResult> GetUsersPosts(int userId, string filterMethod, [FromQuery] PostPagingParameters postPagingParameters)
         {
             var posts = await _postRepository.GetUsersPosts(userId, filterMethod);
 
-            return Ok(posts);
+            var pagedPosts = posts.Skip((postPagingParameters.PageNumber - 1) * postPagingParameters.PageSize).Take(postPagingParameters.PageSize).ToList();
+
+            return Ok(pagedPosts);
         }
 
     }

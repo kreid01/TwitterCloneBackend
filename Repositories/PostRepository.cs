@@ -57,11 +57,15 @@ namespace TwitterCloneBackend.Repositories
         {
             var usersPosts = new List<Post>();
 
+
+
             if (filterMethod == "likes")
             {
-                var posts = await _context.Posts.ToListAsync();
 
                 var likedPosts = new List<Post>();
+
+                var posts = await _context.Posts.ToListAsync();
+
 
                 foreach (var post in posts)
                 {
@@ -73,8 +77,30 @@ namespace TwitterCloneBackend.Repositories
 
                 usersPosts = likedPosts;
             
-            } else
+            } else if(filterMethod == "media")
             {
+                usersPosts = await _context.Posts.Where(_ => _.PostMedia.Length > 1).ToListAsync();
+            } else if( filterMethod == "replies")
+            {
+                var retweetedPosts = new List<Post>();
+
+                var posts = await _context.Posts.ToListAsync();
+
+
+                foreach (var post in posts)
+                {
+                    if (post.RetweetedBy != null && post.RetweetedBy.Contains(userId))
+                    {
+                        retweetedPosts.Add(post);
+                    }
+                }
+
+                usersPosts = retweetedPosts;
+
+            }
+             else if(filterMethod == "tweets")
+            { 
+
              usersPosts = await _context.Posts.Where(_ => _.PosterId == userId).ToListAsync();
 
             }
