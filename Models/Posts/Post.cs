@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TwitterCloneBackend.Models;
+using TwitterCloneBackend.Models.Comments;
 
 public class Post
 {

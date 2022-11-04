@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TwitterCloneBackend.Models;
+using TwitterCloneBackend.Models.Posts;
+using TwitterCloneBackend.Models.Users;
 using TwitterCloneBackend.Repositories;
 using static System.Net.Mime.MediaTypeNames;
 

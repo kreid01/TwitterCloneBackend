@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TwitterCloneBackend.Models;
+using TwitterCloneBackend.Models.Comments;
 using TwitterCloneBackend.Repositories;
 using static System.Net.Mime.MediaTypeNames;
 

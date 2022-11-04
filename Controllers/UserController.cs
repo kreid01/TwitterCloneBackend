@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TwitterCloneBackend.Models;
+using TwitterCloneBackend.Models.Users;
 using TwitterCloneBackend.Repositories;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -25,6 +25,14 @@ namespace TwitterCloneBacked.NameSpace
 
             return Ok(users);
         }
+        [HttpGet]
+        [Route("users/login")]
+        public async Task<ActionResult<User>> GetLoginUser(string email, string password)
+        {
+            var user = await _userRepository.LoginUser(email, password);
+
+            return Ok(user);
+        }
 
 
         [HttpGet]
@@ -47,8 +55,7 @@ namespace TwitterCloneBacked.NameSpace
             {
                 UserAt = newUser.UserAt,
                 UserName = newUser.UserName,
-                UserImg = newUser.UserImg,
-                UserCoverImg = newUser.UserCoverImg,
+                UserPassword = newUser.UserPassword,
                 UserEmail = newUser.UserEmail,
                 JoinDate = DateTime.UtcNow,
             };
@@ -80,6 +87,7 @@ namespace TwitterCloneBacked.NameSpace
             await _userRepository.Update(user);
             return Ok();
         }
+
     }
 
 }

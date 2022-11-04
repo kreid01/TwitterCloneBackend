@@ -11,5 +11,7 @@
         Task Delete(int id);
 
         Task Update(User user);
+
+        Task<User> LoginUser(string email, string password);
     }
 }

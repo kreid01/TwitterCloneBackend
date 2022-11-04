@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
 using TwitterCloneBackend.Context;
-using TwitterCloneBackend.Models;
+using TwitterCloneBackend.Models.Comments;
 
 namespace TwitterCloneBackend.Repositories
 {

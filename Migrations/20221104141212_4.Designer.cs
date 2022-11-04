@@ -13,8 +13,8 @@ using TwitterCloneBackend.Context;
 namespace TwitterCloneBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221102212141_2")]
-    partial class _2
+    [Migration("20221104141212_4")]
+    partial class _4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,17 +27,14 @@ namespace TwitterCloneBackend.Migrations
 
             modelBuilder.Entity("Post", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CommentCount")
                         .HasColumnType("integer");
-
-                    b.Property<List<int>>("FollowedBy")
-                        .HasColumnType("integer[]");
 
                     b.Property<int>("LikeCount")
                         .HasColumnType("integer");
@@ -60,6 +57,9 @@ namespace TwitterCloneBackend.Migrations
 
                     b.Property<int>("RetweetCount")
                         .HasColumnType("integer");
+
+                    b.Property<List<int>>("RetweetedBy")
+                        .HasColumnType("integer[]");
 
                     b.Property<string>("UserAt")
                         .IsRequired()
@@ -179,10 +179,13 @@ namespace TwitterCloneBackend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserImg")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserPassword")
                         .IsRequired()
                         .HasColumnType("text");
 

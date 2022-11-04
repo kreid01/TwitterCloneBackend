@@ -49,5 +49,12 @@ namespace TwitterCloneBackend.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<User> LoginUser(string email, string password)
+        {
+            return await _context.Users.Where(_ => _.UserPassword == password && _.UserEmail == email).FirstOrDefaultAsync();
+
+        }
+
     }
 }

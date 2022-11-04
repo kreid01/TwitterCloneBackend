@@ -1,4 +1,4 @@
-﻿using TwitterCloneBackend.Models;
+﻿using TwitterCloneBackend.Models.Comments;
 
 namespace TwitterCloneBackend.Repositories
 {

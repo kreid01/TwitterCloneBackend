@@ -1,4 +1,4 @@
-﻿namespace TwitterCloneBackend.Models
+﻿namespace TwitterCloneBackend.Models.Users
 {
     public class UpdatePostDto
     {

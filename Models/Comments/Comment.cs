@@ -1,12 +1,10 @@
-﻿
-
-namespace TwitterCloneBackend.Models
+﻿namespace TwitterCloneBackend.Models.Comments
 {
     public class Comment
     {
         public int Id { get; set; }
 
-        public int?  PosterId { get; set; }
+        public int? PosterId { get; set; }
 
         public int PostId { get; set; }
 
@@ -14,7 +12,7 @@ namespace TwitterCloneBackend.Models
 
         public string UserName { get; set; }
 
-        public string UserImg { get; set;}
+        public string UserImg { get; set; }
 
         public string CommentBody { get; set; }
 
@@ -22,5 +20,5 @@ namespace TwitterCloneBackend.Models
 
         public DateTime? CommentDate { get; set; }
 
-     }
+    }
 }

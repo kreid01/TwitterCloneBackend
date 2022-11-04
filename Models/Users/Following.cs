@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TwitterCloneBackend.Models
+namespace TwitterCloneBackend.Models.Users
 {
-    public class Follows
+    public class Following
     {
-       public int Id { get; set; }
+        [Key]
+        public int UserId { get; set; }
 
         public string UserName { get; set; }
 

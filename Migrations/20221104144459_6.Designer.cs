@@ -13,8 +13,8 @@ using TwitterCloneBackend.Context;
 namespace TwitterCloneBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221102145222_init")]
-    partial class init
+    [Migration("20221104144459_6")]
+    partial class _6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,17 +27,20 @@ namespace TwitterCloneBackend.Migrations
 
             modelBuilder.Entity("Post", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CommentCount")
                         .HasColumnType("integer");
 
                     b.Property<int>("LikeCount")
                         .HasColumnType("integer");
+
+                    b.Property<List<int>>("LikedBy")
+                        .HasColumnType("integer[]");
 
                     b.Property<DateTime?>("PostDate")
                         .HasColumnType("timestamp with time zone");
@@ -54,6 +57,9 @@ namespace TwitterCloneBackend.Migrations
 
                     b.Property<int>("RetweetCount")
                         .HasColumnType("integer");
+
+                    b.Property<List<int>>("RetweetedBy")
+                        .HasColumnType("integer[]");
 
                     b.Property<string>("UserAt")
                         .IsRequired()
@@ -72,7 +78,7 @@ namespace TwitterCloneBackend.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("TwitterCloneBackend.Models.Comment", b =>
+            modelBuilder.Entity("TwitterCloneBackend.Models.Comments.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,22 +121,19 @@ namespace TwitterCloneBackend.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("TwitterCloneBackend.Models.Follows", b =>
+            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Followers", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("UserAt")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("UserId1")
                         .HasColumnType("integer");
 
                     b.Property<string>("UserImg")
@@ -141,13 +144,41 @@ namespace TwitterCloneBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId");
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Follows");
+                    b.ToTable("Followers");
+                });
+
+            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Following", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("UserAt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId1")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserImg")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Following");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -161,15 +192,6 @@ namespace TwitterCloneBackend.Migrations
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<List<int>>("LikedPostIds")
-                        .HasColumnType("integer[]");
-
-                    b.Property<List<int>>("PostIds")
-                        .HasColumnType("integer[]");
-
-                    b.Property<List<int>>("RetweetedPostIds")
-                        .HasColumnType("integer[]");
-
                     b.Property<string>("UserAt")
                         .IsRequired()
                         .HasColumnType("text");
@@ -182,10 +204,13 @@ namespace TwitterCloneBackend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserImg")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserPassword")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -194,7 +219,7 @@ namespace TwitterCloneBackend.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TwitterCloneBackend.Models.Comment", b =>
+            modelBuilder.Entity("TwitterCloneBackend.Models.Comments.Comment", b =>
                 {
                     b.HasOne("Post", null)
                         .WithMany("Comments")
@@ -203,15 +228,22 @@ namespace TwitterCloneBackend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TwitterCloneBackend.Models.Follows", b =>
+            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Followers", b =>
                 {
                     b.HasOne("User", null)
                         .WithMany("Followers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
+            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Following", b =>
+                {
                     b.HasOne("User", null)
                         .WithMany("Following")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Post", b =>
