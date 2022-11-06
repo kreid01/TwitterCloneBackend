@@ -22,9 +22,7 @@ namespace TwitterCloneBackend.Repositories
        
         public async Task Delete(int id)
         {
-            var itemToDelete = await _context.Posts.FindAsync(id);
-            if (itemToDelete == null)
-                throw new NullReferenceException();
+            var itemToDelete = await _context.Posts.Where(_ => _.Id == id).FirstOrDefaultAsync();
 
             _context.Posts.Remove(itemToDelete);
             await _context.SaveChangesAsync();
@@ -79,7 +77,7 @@ namespace TwitterCloneBackend.Repositories
             
             } else if(filterMethod == "media")
             {
-                usersPosts = await _context.Posts.Where(_ => _.PostMedia.Length > 1).ToListAsync();
+                usersPosts = await _context.Posts.Where(_ => _.PostMedia.Length > 15 && _.PosterId == userId).ToListAsync();
             } else if( filterMethod == "replies")
             {
                 var retweetedPosts = new List<Post>();

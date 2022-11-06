@@ -13,5 +13,9 @@
         Task Update(User user);
 
         Task<User> LoginUser(string email, string password);
+
+        Task<List<User>> SerchUsers(string query);
+
+        Task<List<User>> GetFollows(int id, string query);
     }
 }

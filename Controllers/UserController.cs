@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TwitterCloneBackend.Models.Posts;
 using TwitterCloneBackend.Models.Users;
 using TwitterCloneBackend.Repositories;
 using static System.Net.Mime.MediaTypeNames;
@@ -45,6 +46,16 @@ namespace TwitterCloneBacked.NameSpace
 
             return Ok(user);
         }
+        [HttpGet]
+        [Route("users/search")]
+        public async Task<IActionResult> SearchUsers(string query, [FromQuery] PostPagingParameters postPagingParameters)
+        {
+            var users =  await _userRepository.SerchUsers(query);
+
+            var pagedUsers = users.Take(postPagingParameters.PageSize).ToList();
+
+            return Ok(pagedUsers);
+        }
 
         [HttpPost]
         [Route("users")]
@@ -57,6 +68,8 @@ namespace TwitterCloneBacked.NameSpace
                 UserName = newUser.UserName,
                 UserPassword = newUser.UserPassword,
                 UserEmail = newUser.UserEmail,
+                Followers = new List<int>(),
+                Following = new List<int>(),
                 JoinDate = DateTime.UtcNow,
             };
 
@@ -74,19 +87,32 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpPut]
         [Route("users/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto userToUpdate)
+        public async Task<IActionResult> UpdateUser(int id, UserUpdateDto userToUpdate)
         {
             User user = new()
             {
                 UserId = id,
                 Followers = userToUpdate.Followers,
-                Following = userToUpdate.Following
+                Following = userToUpdate.Following,
+                UserCoverImg = userToUpdate.UserCoverImg,
+                UserImg = userToUpdate.UserImg,
+                isAdmin = userToUpdate.isAdmin
 
             };
 
             await _userRepository.Update(user);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("users/follows")]
+        public async Task<IActionResult> GetUserFollows(int id, string query)
+        {
+            var followers = await _userRepository.GetFollows(id, query);
+
+            return Ok(followers);
+        }
+
 
     }
 

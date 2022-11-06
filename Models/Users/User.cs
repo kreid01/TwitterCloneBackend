@@ -20,15 +20,17 @@ public class User
 
     public string? UserCoverImg { get; set; }
 
+    public bool isAdmin { get; set;  }
+
     [Required]
     public string UserEmail { get; set; }
 
     public DateTime JoinDate { get; set; } 
 
 
-    public List<Followers>? Followers { get; set; }
+    public List<int>? Followers { get; set; }
 
-    public List<Following>? Following { get; set; }
+    public List<int>? Following { get; set; }
 
 
 }
