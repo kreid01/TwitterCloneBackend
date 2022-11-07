@@ -38,7 +38,7 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpGet]
         [Route("/chat/users")]
-        public async Task<ActionResult<Chat>> GetChats(int user1)
+        public async Task<ActionResult<Chat>> GetCahts(int user1)
         {
             var chats = await _messageRepository.GetChats(user1);
 
