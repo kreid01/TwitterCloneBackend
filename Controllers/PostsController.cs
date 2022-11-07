@@ -2,7 +2,6 @@
 using TwitterCloneBackend.Models.Posts;
 using TwitterCloneBackend.Models.Users;
 using TwitterCloneBackend.Repositories;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TwitterCloneBacked.NameSpace
 {
@@ -19,7 +18,7 @@ namespace TwitterCloneBacked.NameSpace
         }
 
         [HttpGet]
-        [Route("posts")]
+        [Route("posts")] 
         public async Task<ActionResult<IEnumerable<Post>>> GetPosts([FromQuery] PostPagingParameters postPagingParameters)
         {
             var posts = await _postRepository.GetAll();

@@ -3,7 +3,7 @@
     public interface IPostRepository
     {
         Task<Post> Get(int id);
-        
+
         Task<IEnumerable<Post>> GetAll();
 
         Task Add(Post post);

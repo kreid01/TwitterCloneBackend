@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TwitterCloneBackend.Models;
 using TwitterCloneBackend.Models.Comments;
 
 namespace TwitterCloneBackend.Context
@@ -11,6 +12,9 @@ namespace TwitterCloneBackend.Context
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<Chat> Chats { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

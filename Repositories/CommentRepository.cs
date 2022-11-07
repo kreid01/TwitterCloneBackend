@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
-using TwitterCloneBackend.Context;
+    using TwitterCloneBackend.Context;
 using TwitterCloneBackend.Models.Comments;
 
 namespace TwitterCloneBackend.Repositories
@@ -44,12 +43,12 @@ namespace TwitterCloneBackend.Repositories
             if (itemToUpdate == null)
                 throw new NullReferenceException();
 
-              await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Comment>> GetByPostId(int PostId)
         {
-       
+
             var comments = _context.Comments.Where(_ => _.PostId == PostId).ToList();
 
             return comments;

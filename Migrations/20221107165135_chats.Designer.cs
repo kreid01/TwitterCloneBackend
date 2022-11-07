@@ -13,8 +13,8 @@ using TwitterCloneBackend.Context;
 namespace TwitterCloneBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221104144459_6")]
-    partial class _6
+    [Migration("20221107165135_chats")]
+    partial class chats
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,6 +78,49 @@ namespace TwitterCloneBackend.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("TwitterCloneBackend.Models.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("User1")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("User1At")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User1Img")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User1Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("User2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("User2At")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User2Img")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User2Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("TwitterCloneBackend.Models.Comments.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -121,64 +164,31 @@ namespace TwitterCloneBackend.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Followers", b =>
+            modelBuilder.Entity("TwitterCloneBackend.Models.Message", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("UserAt")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId1")
+                    b.Property<int>("ChatId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("UserImg")
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MessageContent")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("SenderName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Followers");
-                });
-
-            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Following", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("UserAt")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId1")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UserImg")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Following");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -188,6 +198,12 @@ namespace TwitterCloneBackend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+
+                    b.Property<List<int>>("Followers")
+                        .HasColumnType("integer[]");
+
+                    b.Property<List<int>>("Following")
+                        .HasColumnType("integer[]");
 
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("timestamp with time zone");
@@ -214,6 +230,9 @@ namespace TwitterCloneBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("isAdmin")
+                        .HasColumnType("boolean");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
@@ -228,34 +247,9 @@ namespace TwitterCloneBackend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Followers", b =>
-                {
-                    b.HasOne("User", null)
-                        .WithMany("Followers")
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TwitterCloneBackend.Models.Users.Following", b =>
-                {
-                    b.HasOne("User", null)
-                        .WithMany("Following")
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Post", b =>
                 {
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("User", b =>
-                {
-                    b.Navigation("Followers");
-
-                    b.Navigation("Following");
                 });
 #pragma warning restore 612, 618
         }

@@ -60,16 +60,16 @@ namespace TwitterCloneBackend.Repositories
             return await _context.Users.Where(_ => _.UserPassword == password && _.UserEmail == email).FirstOrDefaultAsync();
 
         }
-         public async Task<List<User>> SerchUsers(string query)
+        public async Task<List<User>> SerchUsers(string query)
         {
             return await _context.Users.Where(_ => _.UserAt.Contains(query) || _.UserName.Contains(query)).ToListAsync();
         }
 
         public async Task<List<User>> GetFollows(int id, string query)
         {
-           var user = await _context.Users.Where(_ => _.UserId == id).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(_ => _.UserId == id).FirstOrDefaultAsync();
 
-           var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.ToListAsync();
 
             var follows = new List<User>();
 
@@ -83,7 +83,8 @@ namespace TwitterCloneBackend.Repositories
                         follows.Add(users.Where(_ => _.UserId == follower).FirstOrDefault());
                     }
                 }
-            } else if (query == "following")
+            }
+            else if (query == "following")
             {
                 if (user != null)
                 {
@@ -96,6 +97,21 @@ namespace TwitterCloneBackend.Repositories
             }
 
             return follows;
+        }
+        public async Task<List<User>> GetUsersForChat(List<int> userIds)
+        {
+            var users = await _context.Users.ToListAsync();
+
+            var userWithChats = new List<User>();
+
+
+  
+            foreach (var userId in userIds)
+            {
+                userWithChats.Add(users.Where(_ => _.UserId == userId).FirstOrDefault());
+            }
+
+            return userWithChats;
         }
 
     }

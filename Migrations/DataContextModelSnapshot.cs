@@ -76,6 +76,49 @@ namespace TwitterCloneBackend.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("TwitterCloneBackend.Models.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("User1")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("User1At")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User1Img")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User1Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("User2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("User2At")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User2Img")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("User2Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("TwitterCloneBackend.Models.Comments.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -117,6 +160,33 @@ namespace TwitterCloneBackend.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("TwitterCloneBackend.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChatId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MessageContent")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SenderName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("User", b =>

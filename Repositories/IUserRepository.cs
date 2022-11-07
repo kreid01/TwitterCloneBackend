@@ -17,5 +17,7 @@
         Task<List<User>> SerchUsers(string query);
 
         Task<List<User>> GetFollows(int id, string query);
+
+        Task<List<User>> GetUsersForChat(List<int> userIds);
     }
 }

@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
-using TwitterCloneBacked.NameSpace;
 using TwitterCloneBackend.Context;
 
 namespace TwitterCloneBackend.Repositories
@@ -19,7 +17,7 @@ namespace TwitterCloneBackend.Repositories
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
         }
-       
+
         public async Task Delete(int id)
         {
             var itemToDelete = await _context.Posts.Where(_ => _.Id == id).FirstOrDefaultAsync();
@@ -74,11 +72,13 @@ namespace TwitterCloneBackend.Repositories
                 }
 
                 usersPosts = likedPosts;
-            
-            } else if(filterMethod == "media")
+
+            }
+            else if (filterMethod == "media")
             {
                 usersPosts = await _context.Posts.Where(_ => _.PostMedia.Length > 15 && _.PosterId == userId).ToListAsync();
-            } else if( filterMethod == "replies")
+            }
+            else if (filterMethod == "replies")
             {
                 var retweetedPosts = new List<Post>();
 
@@ -96,10 +96,10 @@ namespace TwitterCloneBackend.Repositories
                 usersPosts = retweetedPosts;
 
             }
-             else if(filterMethod == "tweets")
-            { 
+            else if (filterMethod == "tweets")
+            {
 
-             usersPosts = await _context.Posts.Where(_ => _.PosterId == userId).ToListAsync();
+                usersPosts = await _context.Posts.Where(_ => _.PosterId == userId).ToListAsync();
 
             }
 

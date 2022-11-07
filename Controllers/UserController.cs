@@ -2,7 +2,6 @@
 using TwitterCloneBackend.Models.Posts;
 using TwitterCloneBackend.Models.Users;
 using TwitterCloneBackend.Repositories;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TwitterCloneBacked.NameSpace
 {
@@ -113,7 +112,14 @@ namespace TwitterCloneBacked.NameSpace
             return Ok(followers);
         }
 
+        [HttpGet]
+        [Route("users/chats")]
+        public async Task<ActionResult<List<User>>> GetUsersForChat([FromQuery] List<int> userIds)
+        {
+            var users = await _userRepository.GetUsersForChat(userIds);
 
+            return Ok(users);
+        }
     }
 
 }
