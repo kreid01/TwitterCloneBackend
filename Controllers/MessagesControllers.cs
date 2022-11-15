@@ -48,11 +48,12 @@ namespace TwitterCloneBacked.NameSpace
 
         [HttpGet]
         [Route("/chat/messages")]
-        public async Task<ActionResult<List<Message>>> GetChatMessages(int chatId)
+        public async Task<ActionResult<List<Message>>> GetChatMessages(int chatId, [FromQuery] PostPagingParameters pagingParams)
         {
             var messages = await _messageRepository.GetMessagesForChat(chatId);
 
-            return Ok(messages);
+            return Ok(messages.Skip((pagingParams.PageNumber - 1) * pagingParams.PageSize).Take(pagingParams.PageSize).Reverse().ToList());
+
         }
 
 

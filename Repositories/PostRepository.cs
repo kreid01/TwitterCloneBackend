@@ -32,7 +32,9 @@ namespace TwitterCloneBackend.Repositories
 
         public async Task<IEnumerable<Post>> GetAll()
         {
-            return await _context.Posts.ToListAsync();
+           var posts = await _context.Posts.ToListAsync();
+
+            return posts.OrderByDescending(p => p.PostDate);
         }
         public async Task Update(Post post)
         {
